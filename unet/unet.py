@@ -126,7 +126,7 @@ class UNet(nn.Module):
                 channels = 2 * out_channels_first_layer
                 for _ in range(num_encoding_blocks):
                     dab = DimensionalAttentionBlock(channels=channels, compression_ratio=2)
-                    self.attenion_blocks.append(dab)
+                    self.attention_blocks.append(dab)
                     # set out channels according to encoding layer out channels
                     channels = 2 * channels
             else:
