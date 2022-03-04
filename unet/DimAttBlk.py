@@ -79,7 +79,7 @@ class DimensionalAttentionBlock(nn.Module):
         h = self.h_track(h)
         w = self.w_track(w)
         # 2D -> 3D
-        attentions = reconstruction(d, h, w)
+        attentions = self.reconstruction(d, h, w)
         # Apply attention scores to input
         out = (attentions + 1) * x
         return out
