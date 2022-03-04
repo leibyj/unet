@@ -54,7 +54,7 @@ class DimensionalAttentionBlock(nn.Module):
         w, _ = torch.max(x, dim=4)
         return d, h, w
 
-    def reconstruction(self, d, h, w)
+    def reconstruction(self, d, h, w):
         ''' Reconstruct 3D output from 2D inputs. 3D vox value == mean of each value at that location
         d: NxCxWxH tensor
         h: NxCxDxW tensor
