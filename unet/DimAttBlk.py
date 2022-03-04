@@ -6,12 +6,12 @@ class ConvTrack(nn.Module):
         super(ConvTrack, self).__init__()
         
         mid_channels = int(channels/compression_ratio)
-        conv1 = nn.Conv2D(
+        conv1 = nn.Conv2d(
             in_channels=channels,
             out_channels=mid_channels,
             kernel_size = 3,
             padding='same')
-        conv2 = nn.Conv2D(
+        conv2 = nn.Conv2d(
             in_channels=mid_channels,
             out_channels=channels,
             kernel_size=3,
@@ -21,7 +21,8 @@ class ConvTrack(nn.Module):
             conv1,
             nn.ReLU(),
             conv2,
-            nn.Tanh())
+            nn.Tanh()
+            )
 
     def forward(self, x):
         return(self.conv_track(x))
