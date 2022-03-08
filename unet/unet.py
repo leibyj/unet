@@ -32,6 +32,7 @@ class UNet(nn.Module):
             dropout: float = 0,
             monte_carlo_dropout: float = 0,
             attention: bool = False,
+            att_activation: str = 'Tanh'
             ):
         super().__init__()
         depth = num_encoding_blocks - 1
@@ -125,7 +126,7 @@ class UNet(nn.Module):
                 # set out channels from first layer
                 channels = 2 * out_channels_first_layer
                 for _ in range(num_encoding_blocks):
-                    dab = DimensionalAttentionBlock(channels=channels, compression_ratio=2)
+                    dab = DimensionalAttentionBlock(channels=channels, compression_ratio=2, activation=att_activation)
                     self.attention_blocks.append(dab)
                     # set out channels according to encoding layer out channels
                     channels = 2 * channels
@@ -139,8 +140,6 @@ class UNet(nn.Module):
         if len(self.attention_blocks) > 0:
             for i, skip in enumerate(skip_connections):
                 skip_connections[i] = self.attention_blocks[i](skip)
-                if i == 0:
-                    print("Attention is being used.")
         encoding = self.bottom_block(encoding)
         x = self.decoder(skip_connections, encoding)
         if self.monte_carlo_layer is not None:

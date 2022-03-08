@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class ConvTrack(nn.Module):
-    def __init__(self, channels: int, compression_ratio: int):
+    def __init__(self, channels: int, compression_ratio: int, activation: str = 'Tanh'):
         super(ConvTrack, self).__init__()
         
         mid_channels = int(channels/compression_ratio)
@@ -17,11 +17,13 @@ class ConvTrack(nn.Module):
             kernel_size=3,
             padding='same')
 
+        conv2_act = getattr(nn, activation)()
+
         self.conv_track = nn.Sequential(
             conv1,
             nn.ReLU(),
             conv2,
-            nn.Tanh()
+            conv2_act
             )
 
     def forward(self, x):
@@ -29,13 +31,13 @@ class ConvTrack(nn.Module):
 
 
 class DimensionalAttentionBlock(nn.Module):
-    def __init__(self, channels: int, compression_ratio: int):
+    def __init__(self, channels: int, compression_ratio: int, activation: str = 'Tanh'):
         super(DimensionalAttentionBlock, self).__init__()
 
         # need three tracks, one for each dimension
-        self.d_track = ConvTrack(channels, compression_ratio)
-        self.h_track = ConvTrack(channels, compression_ratio)
-        self.w_track = ConvTrack(channels, compression_ratio)
+        self.d_track = ConvTrack(channels, compression_ratio, activation)
+        self.h_track = ConvTrack(channels, compression_ratio, activation)
+        self.w_track = ConvTrack(channels, compression_ratio, activation)
 
         # need channels for reconstruction code
         self.channels = channels
