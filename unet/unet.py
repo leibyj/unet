@@ -139,6 +139,8 @@ class UNet(nn.Module):
         if len(self.attention_blocks) > 0:
             for i, skip in enumerate(skip_connections):
                 skip_connections[i] = self.attention_blocks[i](skip)
+                if i == 0:
+                    print("Attention is being used.")
         encoding = self.bottom_block(encoding)
         x = self.decoder(skip_connections, encoding)
         if self.monte_carlo_layer is not None:
