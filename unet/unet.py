@@ -146,6 +146,9 @@ class UNet(nn.Module):
         return self.classifier(x)
 
 class ParallelUNet(nn.Module):
+    """
+    Adapts previous UNet code but allows for sending encoder and decoder to different GPU devices
+    """
     def __init__(
             self,
             in_channels: int = 1,
