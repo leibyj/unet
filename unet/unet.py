@@ -7,7 +7,7 @@ import torch.nn as nn
 from .encoding import Encoder, EncodingBlock
 from .decoding import Decoder
 from .conv import ConvolutionalBlock
-from .DimAttBlk import DimensionalAttentionBlock
+from .dimAttBlk import DimensionalAttentionBlock
 
 __all__ = ['UNet', 'ParallelUNet', 'UNet2D', 'UNet3D']
 
